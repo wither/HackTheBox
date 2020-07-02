@@ -11,7 +11,7 @@ I began my reconnaissance by running an Nmap scan:
 
 ![NMap](https://i.imgur.com/4sOxGDI.png)
 
-I noticed that this machine was running what seemed to be an old version of Samba, which from my experience are typically very vulnerable. So I then had to see if thre was exploit already available for this version.
+I noticed that this machine was running what seemed to be an old version of Samba, which from my experience are typically very vulnerable. So I then had to see if there was exploit already available for this version.
 
 ## Google
 
