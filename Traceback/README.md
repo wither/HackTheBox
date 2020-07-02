@@ -83,11 +83,11 @@ After successfully compromising the panel, I began to look around the directorie
 
 ![Authorized Keys](https://i.imgur.com/nQskYs4.png)
 
-After SSH'ing into the machine as `webadmin`, I took a look around and found that there was another user (which I saw earlier from the shell) called sysadmin. I needed access. I used ```console sudo -l``` to list user's privileges on the machine and found that the sysadmin user, could be logged in through `luvit` (an lua shell) using `/home/sysadmin/luvit`. This was a nice suprise!
+After SSH'ing into the machine as `webadmin`, I took a look around and found that there was another user (which I saw earlier from the shell) called sysadmin. I needed access. I used ` sudo -l` to list user's privileges on the machine and found that the sysadmin user, could be logged in through `luvit` (an lua shell) using `/home/sysadmin/luvit`. This was a nice suprise!
 
 ![Sysadmin](https://i.imgur.com/SWP3eS5.png)
 
-From here, I simply ran the lua line ```console os.execute("/bin/bash")``` to get the familiar bash shell as the user.
+From here, I simply ran the lua line `os.execute("/bin/bash")` to get the familiar bash shell as the user.
 
 ![Sysadmin](https://i.imgur.com/9UZLmNw.png)
 
@@ -108,7 +108,7 @@ After a bit of searching around, I found two folders which had root permissions 
 
 
 ## Root Flag
-So, I appended ```console cat /root/root.txt``` to the and of the file, so that the command would run the next time that I SSH'd into the machine and output the flag.
+So, I appended `cat /root/root.txt` to the and of the file, so that the command would run the next time that I SSH'd into the machine and output the flag.
 
 And that's exactly what it did!
 
