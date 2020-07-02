@@ -48,6 +48,8 @@ HOP RTT      ADDRESS
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 45.70 seconds
 ```
+
+
 ## Source Code
 
 As you can see, `Apache` on ports `81/444` and `SSH` on port `22` are the only things that seem to be running.
@@ -55,13 +57,14 @@ Since I knew that there was a HTTP server running on the machine, I went to go c
 
 ![Website Source](https://i.imgur.com/aA7YOYG.png)
 
+
 ## Google
 
 I thought that this must've been a hint, so I did a little Googling. I found ![this](https://github.com/Xh4H/Web-Shells) Github repository, which had a list of php files (presumably web shells). On the website, there is a `<h2>` tag that read `"I have left a backdoor for all the net. FREE INTERNETZZZ"`, which could only mean that one of these php files have been left somewhere on the server.
 
 ![Github Repo](https://i.imgur.com/vnl5iw9.png)
 
-To find it, I then used a tool called `wfuzz`. I created a text file that listed all of the filenames from the repository, which I then fed into `fuzz` to see if they were files that existed on the server.
+To find it, I then used a tool called `wfuzz`. I created a text file that listed all of the filenames from the repository, which I then fed into `wfuzz` to see if they were files that existed on the server.
 
 ![Wfuzz](https://i.imgur.com/xpaFnXQ.png)
 
@@ -69,9 +72,10 @@ As you can see, a file called `smevk.php` was found! So naturally, I went to it 
 
 ![Shell Creds](https://i.imgur.com/K4XTEfb.png)
 
-In the `smevk.php` source in the repository, exactly as I had thought, led the admin credentials to the panel.
+In the `smevk.php` source in the repository, exactly as I had thought, was the admin credentials to the panel.
 
 ![Admin Panel](https://i.imgur.com/oLTPy7v.png)
+
 
 # Exploitation
 
@@ -79,11 +83,11 @@ After successfully compromising the panel, I began to look around the directorie
 
 ![Authorized Keys](https://i.imgur.com/nQskYs4.png)
 
-After SSH'ing into the machine as `webadmin`, I took a look around and found that there was another user (which I saw earlier from the shell) called sysadmin. I needed access. I used ```console sudo -l``` to list user's privileges on the machine and found that the sysadmin user, could be logged in through `luvit` (an lua shell) in the `/home/sysadmin`. This was a nice suprise!
+After SSH'ing into the machine as `webadmin`, I took a look around and found that there was another user (which I saw earlier from the shell) called sysadmin. I needed access. I used ```console sudo -l``` to list user's privileges on the machine and found that the sysadmin user, could be logged in through `luvit` (an lua shell) using `/home/sysadmin/luvit`. This was a nice suprise!
 
 ![Sysadmin](https://i.imgur.com/SWP3eS5.png)
 
-From here, I simply ran ```console os.execute("/bin/bash")``` to get the familiar bash shell as the user.
+From here, I simply ran the lua line ```console os.execute("/bin/bash")``` to get the familiar bash shell as the user.
 
 ![Sysadmin](https://i.imgur.com/9UZLmNw.png)
 
@@ -93,6 +97,7 @@ From here, I simply ran ```console os.execute("/bin/bash")``` to get the familia
 From this shell, I was able to cd over to the `/home/` directory, where the user flag, contained in `cat.txt` was found.
 
 ![User Flag](https://i.imgur.com/GzEB2Ji.png)
+
 
 # Getting Root Flag
 
@@ -108,6 +113,7 @@ So, I appended ```console cat /root/root.txt``` to the and of the file, so that 
 And that's exactly what it did!
 
 ![Root Flag](https://i.imgur.com/Ka631pN.png)
+
 
 # Conclusion
 This was my first active box and I have to say that, I had a lot of fun! There was a lot of interesting little hints and secrets that I had to find and note during my reconnaissance that made a great impact later on. A lot of this box was about exploring through it, seeing what I can find and making use of what I did. I learned qutie a lot during this, but most notably about the existance of the lua language and its shells such as luvit, executing commands from root files, generating SSH keys and overwriting the authorized_keys file etc.
