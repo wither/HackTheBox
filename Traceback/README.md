@@ -57,7 +57,7 @@ Since I knew that there was a HTTP server running on the machine, I went to go c
 
 ## Google
 
-I thought that this must've been a hint, so I did a little Googling. I found ![this](https://github.com/Xh4H/Web-Shells) Github repository, which had a list of php files (presumably web shells). On the website, there is a ```html <h2>``` tag that reads `"I have left a backdoor for all the net. FREE INTERNETZZZ"`, which only means that one of these php files are somewhere on the server.
+I thought that this must've been a hint, so I did a little Googling. I found ![this](https://github.com/Xh4H/Web-Shells) Github repository, which had a list of php files (presumably web shells). On the website, there is a `<h2>` tag that read `"I have left a backdoor for all the net. FREE INTERNETZZZ"`, which could only mean that one of these php files have been left somewhere on the server.
 
 ![Github Repo](https://i.imgur.com/vnl5iw9.png)
 
