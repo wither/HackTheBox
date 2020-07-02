@@ -11,10 +11,11 @@ I began my reconnaissance by running an Nmap scan:
 
 ![NMap](https://i.imgur.com/Bzzrvgg.png)
 
+I noticed that this machine was running what seemed to be an old version of Samba, which from my experience are typically very vulnerable. So I then had to see if thre was exploit already available for this version.
 
 ## Google
 
-I then began to search the exploit on Google. This was the first result, from a reliable source: Rapid7.
+I then began to search for an exploit on Google. This was the first result, from a reliable source: Rapid7.
 
 ![Rapid7](https://i.imgur.com/Giv3H9S.png)
 
