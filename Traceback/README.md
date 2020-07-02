@@ -7,7 +7,7 @@ Date: "01-07-2020"
 # Information Gathering
 
 ## Nmap
-We begin our reconnaissance by running an Nmap scan:
+I began my reconnaissance by running an Nmap scan:
 
 ```console
 root@kali:~# nmap -A -T4 -p- 10.10.10.181
