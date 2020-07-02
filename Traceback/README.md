@@ -1,10 +1,8 @@
 ---
-title: "Hack The Box - Traceback"
-author: Xh4H
-date: "01-07-2020"
+Title: "Hack The Box - Traceback"
+Author: Xh4H
+Date: "01-07-2020"
 ---
-
-*Everything below is just random stuff for the sake of example.*
 
 # Information Gathering
 
