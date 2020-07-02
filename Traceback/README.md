@@ -96,7 +96,7 @@ From this shell, I was able to cd over to the `/home/` directory, where the user
 
 # Getting Root Flag
 
-Now that I had found he user flag, the next target was the root flag. SO, I began to look around the files on the machine that I could access as this user.
+Now that I had found he user flag, the next target was the root flag. So, I began to look around the files on the machine that I could access as this user.
 After a bit of searching around, I found two folders which had root permissions called 'update-manager' and 'update-motd.d'. Out of these two directories, update-motd.d was the one I was most interested in. This is because, typically motd's are ran as root on boot/when you SSH into the machine. 
 
 ![User Flag](https://i.imgur.com/sLbTP5x.png)
