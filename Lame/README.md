@@ -1,7 +1,7 @@
 ---
-Title: "Hack The Box - Traceback"
-Author: Xh4H
-Date: "01-07-2020"
+Title: "Hack The Box - Lame"
+Author: ch4p
+Date: "02-07-2020"
 ---
 
 # Information Gathering
