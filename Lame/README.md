@@ -38,7 +38,7 @@ As per usual metasploit exploitation, the rest was pretty easy. I firstly select
 
 Simply searching for and outputting the contents of the user flag, often found in `user.txt`
 
-![User Flag](https://i.imgur.com/zWg8YUO.png)
+![User Flag](https://i.imgur.com/5Q7rMPy.png)
 
 
 
@@ -46,7 +46,7 @@ Simply searching for and outputting the contents of the user flag, often found i
 
 Simply searching for and outputting the contents of the user flag, often found in `user.txt`
 
-![Root Flag](https://i.imgur.com/4z70D1K.png)
+![Root Flag](https://i.imgur.com/pJ1cKwW.png)
 
 
 # Conclusion
