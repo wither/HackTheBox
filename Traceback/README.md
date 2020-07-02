@@ -7,7 +7,7 @@ Date: "01-07-2020"
 # Information Gathering
 
 ## Nmap
-We begin our reconnaissance by running an Nmap scan checking default scripts and testing for vulnerabilities.
+We begin our reconnaissance by running an Nmap scan:
 
 ```console
 x@wartop:~$ nmap -sVC 192.168.100.6
@@ -30,28 +30,24 @@ PORT    STATE SERVICE  VERSION
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 201.22 seconds
 ```
-From the above output we can see that ports, **22**, **53**, **81**, and **444** are the ports open. This is just an example to show code formatting so who cares.
+As you can see, `Apache` on ports `81/444` and `SSH` on port `22` are the only things that seem to be running.
+Since I knew that there was a HTTP server running on the machine, I went to go check it out.
 
-Look  here's an image of my website, this is how you format an image.
+![Website Source](https://i.imgur.com/aA7YOYG.png)
 
-![My Website](./images/ryankozak.com.png)
-\ **Figure 1:** My Website
+I thought that this must've been a hint, so I did a little Googling. I found ![Website Source](https://github.com/Xh4H/Web-Shells) Github repository, which had a list of php files (presumably web shells). On the website, there is a ```html <h2>``` tag that reads `"I have left a backdoor for all the net. FREE INTERNETZZZ"`, which only means that one of these php files are somewhere on the server.
 
+![Github Repo](https://i.imgur.com/vnl5iw9.png)
 
-![Github](./images/github.png)
-\ **Figure 2:** Github Profile
+To find it, I then used a tool called `wfuzz`. I created a text file that listed all of the filenames from the repository, which I then fed into `fuzz` to see if they were files that existed on the server.
 
-Maybe we want to show some python code too, to let's take a look at a snipped from [codewars](https://www.codewars.com) to format time as human readable.
+![Wfuzz](https://i.imgur.com/xpaFnXQ.png)
 
-```python
-def make_readable(seconds):        
+As you can see, a file called `smevk.php` was found! So naturally, I went to it and found the shell's login panel. I didn't have any credentials yet however, but I knew where I might find them.
 
-    hours = seconds / 60**2
-    minutes = seconds/60 - hours*60
-    seconds = seconds - hours*(60**2) - minutes*60
+![Shell Creds](https://i.imgur.com/K4XTEfb.png)
 
-    return '%02d:%02d:%02d' % (hours, minutes, seconds)
-```
+In the `smevk.php` source in the repository, exactly as I had thought, led the admin credentials to the panel.
 
 
 # Exploitation  
