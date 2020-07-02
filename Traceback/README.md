@@ -2,18 +2,7 @@
 title: "Hack The Box - Traceback"
 author: Xh4H
 date: "01-07-2020"
-subject: "CTF Writeup Template"
-keywords: [HTB, CTF, Hack The Box, Security]
-lang: "en"
-titlepage: true
-titlepage-text-color: "FFFFFF"
-titlepage-color: "0c0d0e"
-titlepage-rule-color: "8ac53e"
-logo: "./images/badge.png"
-logo-width: 350
-toc: true
-toc-own-page: true
-...
+---
 
 *Everything below is just random stuff for the sake of example.*
 
