@@ -10,30 +10,52 @@ Date: "01-07-2020"
 We begin our reconnaissance by running an Nmap scan:
 
 ```console
-x@wartop:~$ nmap -sVC 192.168.100.6
+root@kali:~# nmap -A -T4 -p- 10.10.10.181
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-07-02 08:12 EDT
+Nmap scan report for 10.10.10.181
+Host is up (0.024s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 96:25:51:8e:6c:83:07:48:ce:11:4b:1f:e5:6d:8a:28 (RSA)
+|   256 54:bd:46:71:14:bd:b2:42:a1:b6:b0:2d:94:14:3b:0d (ECDSA)
+|_  256 4d:c3:f8:52:b8:85:ec:9c:3e:4d:57:2c:4a:82:fd:86 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Help us
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=7/2%OT=22%CT=1%CU=30115%PV=Y%DS=2%DC=T%G=Y%TM=5EFDCF49
+OS:%P=x86_64-pc-linux-gnu)SEQ(SP=FF%GCD=1%ISR=10D%TI=Z%CI=Z%II=I%TS=A)OPS(O
+OS:1=M54DST11NW7%O2=M54DST11NW7%O3=M54DNNT11NW7%O4=M54DST11NW7%O5=M54DST11N
+OS:W7%O6=M54DST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN(R
+OS:=Y%DF=Y%T=40%W=7210%O=M54DNNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%
+OS:RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y
+OS:%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R
+OS:%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=
+OS:40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S
+OS:)
 
-Starting Nmap 7.01 ( https://nmap.org ) at 2019-08-11 08:57 PDT
-Nmap scan report for 192.168.100.6 (192.168.100.1)
-Host is up (0.022s latency).
-Not shown: 996 closed ports
-PORT    STATE SERVICE  VERSION
-22/tcp  open  ssh      OpenSSH 7.9 (protocol 2.0)
-53/tcp  open  domain
-81/tcp  open  http     Apache httpd
-|_http-server-header: Apache
-444/tcp open  ssl/http Apache httpd
-|_http-server-header: Apache
-| ssl-cert: Subject: commonName=192.168.100.6
-| Not valid before: 2018-07-06T14:40:08
-|_Not valid after:  4756-06-01T14:40:08
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 201.22 seconds
+TRACEROUTE (using port 8888/tcp)
+HOP RTT      ADDRESS
+1   22.91 ms 10.10.14.1
+2   24.44 ms 10.10.10.181
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 45.70 seconds
 ```
+## Source Code
+
 As you can see, `Apache` on ports `81/444` and `SSH` on port `22` are the only things that seem to be running.
 Since I knew that there was a HTTP server running on the machine, I went to go check it out.
 
 ![Website Source](https://i.imgur.com/aA7YOYG.png)
+
+## Google
 
 I thought that this must've been a hint, so I did a little Googling. I found ![Website Source](https://github.com/Xh4H/Web-Shells) Github repository, which had a list of php files (presumably web shells). On the website, there is a ```html <h2>``` tag that reads `"I have left a backdoor for all the net. FREE INTERNETZZZ"`, which only means that one of these php files are somewhere on the server.
 
@@ -49,10 +71,14 @@ As you can see, a file called `smevk.php` was found! So naturally, I went to it 
 
 In the `smevk.php` source in the repository, exactly as I had thought, led the admin credentials to the panel.
 
+![Admin Panel](https://i.imgur.com/oLTPy7v.png)
 
-# Exploitation  
+# Exploitation
 
-In order to gain our initial foothold we need to blablablabla. Here's another code snippet just for fun.
+After successfully compromising the panel, I began to look around the directories. under `/home/webadmin/`, I found the `.ssh` folder. Now, from my NMap scan earlier, I know that SSH is open on this machine. So, I used the upload feature on the shell to upload my `id_rsa.pub` file (my public key) to the server's `authorized_keys` file, to allow me to easily ssh into the server without needing any passwords.
+
+
+Under
 
 ```php
 function sqInRect($lng, $wdth) {
