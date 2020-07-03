@@ -45,7 +45,7 @@ Simply searching for and outputting the contents of the user flag, often found i
 
 ## Root Flag
 
-Simply searching for and outputting the contents of the user flag, often found in `user.txt`
+Simply searching for and outputting the contents of the root flag, often found in `root.txt`
 
 ![Root Flag](https://i.imgur.com/GmeoHTW.png)
 
