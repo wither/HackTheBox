@@ -51,4 +51,4 @@ Simply searching for and outputting the contents of the root flag, often found i
 
 
 # Conclusion
-This was a very simple box, but I feel like it definately help solidify my knowledge on the basics such as locateing and running exploits effectively using metasploit.
+This was a very simple box, but I feel like it definately help solidify my knowledge on the basics such as locating and running exploits effectively using metasploit.
